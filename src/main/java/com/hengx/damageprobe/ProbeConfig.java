@@ -50,8 +50,9 @@ public final class ProbeConfig {
         ForgeConfigSpec.Builder b = new ForgeConfigSpec.Builder();
         b.comment("伤害探针:记录每一次伤害的意图/实际值/真实扣血/线程/改动点/归属。").push("general");
 
-        ENABLED = b.comment("总开关。默认 true。", "关闭后事件钩子直接返回,不产生任何记录。")
-                .define("enabled", true);
+        ENABLED = b.comment("总开关。默认 false —— 这是排查工具,平时开着一方面刷日志, 一方面要占约 1% 服务端 CPU。",
+                        "排查时用 /damageprobe on 打开即可;关闭后事件钩子直接返回,不产生任何记录。")
+                .define("enabled", false);
 
         TO_CHAT = b.comment("输出到聊天栏(只发给 OP;单人游戏发给房主)。默认 true。")
                 .define("toChat", true);
