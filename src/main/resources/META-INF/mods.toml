@@ -1,0 +1,39 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="${mod_authors}"
+description='''
+${mod_description}
+
+- 事件钩子:LivingAttackEvent(HIGHEST) / LivingHurtEvent(HIGHEST + LOWEST) / LivingDamageEvent(HIGHEST + LOWEST)
+- 第 4 阶段:actuallyHurt HEAD/TAIL(LivingEntity + Player),用血量差得到真实扣血
+- 改动追踪:对 setAmount 做 Mixin,只记录值真的变化的写入(过滤神化式空写)
+- 归属分析:事件倍数 / 护甲段(可正可负) / actuallyHurt 实扣(过量击杀标"过量") / tick 结算
+- 过量击杀:TAIL 检测 isDeadOrDying/health<=0,不再把"血不够"误报成 clamp
+- 摘要含 血 before→after/max,一眼判断实扣少是否因为血不够
+- 效果探针:MobEffect add/forceAdd/remove/removeAll,记录 已施加/被拒绝/已移除 + 来源 + 调用点
+- 修饰符探针:AttributeModifier add/remove/removeAll,记录 值 before→after + 目标实体
+- 防刷屏:同一 目标/效果或属性/修饰符/动作/结果 在 20 tick 内合并 (×N)
+- 伤害联动:同一 tick 目标/攻击者身上的效果/修饰符附在命中记录下
+- 输出分层:summary / stages / context / attribution,/damageprobe verbose 打开 stages+context
+- 配置:config/damageprobe-common.toml
+'''
+
+[[dependencies.${mod_id}]]
+    modId="forge"
+    mandatory=true
+    versionRange="${forge_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
